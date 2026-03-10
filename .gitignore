@@ -48,6 +48,23 @@ jspm_packages/
 
 # dotenv environment variables file
 .env
+
+# SSL Certificates (auto-gerados)
+*.pem
+*.key
+*.crt
+*.cert
+
+# PM2 files
+.pm2/
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# Logs
+logs/
+*.log
 .env.test
 .env.production
 .env.local

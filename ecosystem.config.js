@@ -3,8 +3,8 @@ module.exports = {
     {
       name: "minima-jsonserver",
       script: "./index.js",
-      instances: "max", // número de instâncias, ou 'max' para máximo de CPUs disponíveis
-      exec_mode: "cluster", // modo de execução: 'fork' ou 'cluster'
+      instances: 1, // apenas uma instância para JSON Server
+      exec_mode: "fork", // modo fork é mais adequado para JSON Server
       watch: false, // desabilitado para produção (use true apenas em desenvolvimento)
       max_memory_restart: "1G", // reinicia se usar mais que 1GB de RAM
       log_date_format: "YYYY-MM-DD HH:mm:ss Z",
