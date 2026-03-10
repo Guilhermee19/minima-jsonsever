@@ -30,7 +30,7 @@ module.exports = {
       // Configurações de teste
       env_test: {
         NODE_ENV: "test",
-        PORT: 3003,
+        PORT: 3004,
         HOST: "localhost"
       }
     }

@@ -1,6 +1,6 @@
 # Minima JSON Server
 
-Um servidor JSON simples e eficiente usando **json-server** com gerenciamento de processos via **PM2**.
+Um servidor JSON simples e eficiente usando **json-server** com gerenciamento de processos via **PM2** e desenvolvimento otimizado com **nodemon**.
 
 ## 📋 Pré-requisitos
 
@@ -27,23 +27,32 @@ npm install
 ### Desenvolvimento Local
 
 ```bash
-# Executar em modo de desenvolvimento (com auto-reload)
+# Executar em modo de desenvolvimento (com auto-reload via nodemon)
 npm run dev
 
-# Ou executar diretamente
+# Ou executar diretamente sem auto-reload
 npm start
 ```
+
+O arquivo `nodemon.json` configura o comportamento do nodemon para:
+- Monitorar mudanças em arquivos `.js`, `.json` e `.mjs`
+- Reiniciar automaticamente quando `index.js` ou `db.json` são modificados
+- Ignorar pastas como `node_modules`, `logs` e arquivos de build
+- Mostrar mensagens coloridas no terminal
 
 ### Produção com PM2
 
 #### Iniciar o servidor
 
 ```bash
-# Usando npm script
+# Usando npm script (produção)
 npm run pm2:start
 
+# Para desenvolvimento
+npm run pm2:start:dev
+
 # Ou diretamente com PM2
-pm2 start ecosystem.config.js
+pm2 start ecosystem.config.js --env production
 ```
 
 #### Gerenciar o servidor
@@ -57,20 +66,22 @@ pm2 status
 # Ver logs em tempo real
 npm run pm2:logs
 # ou
-pm2 logs meu-app
+pm2 logs minima-jsonserver
 
 # Parar o servidor
 npm run pm2:stop
 # ou
-pm2 stop meu-app
+pm2 stop minima-jsonserver
 
 # Reiniciar o servidor
 npm run pm2:restart
 # ou
-pm2 restart meu-app
+pm2 restart minima-jsonserver
 
 # Parar e remover da lista de processos
-pm2 delete meu-app
+npm run pm2:delete
+# ou
+pm2 delete minima-jsonserver
 ```
 
 ### Configuração do PM2
@@ -84,7 +95,7 @@ O arquivo `ecosystem.config.js` contém as configurações do PM2:
 
 ## 📝 Endpoints da API
 
-O servidor roda por padrão na porta **3000**. Acesse: `http://localhost:3000`
+O servidor roda por padrão na porta **3003**. Acesse: `http://localhost:3003`
 
 ### Endpoints principais:
 
@@ -102,13 +113,6 @@ O servidor roda por padrão na porta **3000**. Acesse: `http://localhost:3000`
 - `PUT /posts/:id` - Atualizar post
 - `DELETE /posts/:id` - Deletar post
 
-#### Categories
-- `GET /categories` - Listar todas as categorias
-- `GET /categories/:id` - Obter categoria por ID
-
-#### Comments
-- `GET /comments` - Listar todos os comentários
-- `GET /comments/:id` - Obter comentário por ID
 
 ### Consultas avançadas:
 
@@ -138,10 +142,10 @@ GET /users?_embed=posts
 Você pode configurar as seguintes variáveis:
 
 ```bash
-# Porta do servidor (padrão: 3000)
-PORT=3000
+# Porta do servidor (padrão: 3003)
+PORT=3003
 
-# Host do servidor (padrão: 0.0.0.0)
+# Host do servidor (padrão: 0.0.0.0 para produção, localhost para dev)
 HOST=0.0.0.0
 
 # Ambiente de execução
@@ -151,6 +155,30 @@ NODE_ENV=production
 ### Personalizando dados
 
 Edite o arquivo `db.json` para modificar os dados da API. O json-server criará automaticamente endpoints REST para cada coleção no arquivo.
+
+### Configuração do Nodemon
+
+O arquivo `nodemon.json` permite personalizar o comportamento do nodemon:
+
+```json
+{
+  "watch": ["index.js", "db.json", "src/"],
+  "ignore": ["node_modules/", "logs/", "*.log"],
+  "ext": "js,json,mjs",
+  "delay": 1000,
+  "env": {
+    "NODE_ENV": "development",
+    "PORT": "3003"
+  }
+}
+```
+
+**Principais configurações:**
+- `watch`: Arquivos/pastas para monitorar
+- `ignore`: Arquivos/pastas para ignorar
+- `ext`: Extensões de arquivo para monitorar
+- `delay`: Tempo de espera antes do restart (em ms)
+- `env`: Variáveis de ambiente para desenvolvimento
 
 ## 📊 Monitoramento
 
@@ -195,11 +223,13 @@ Para uso em produção, considere:
 |--------|-----------|
 | `npm start` | Inicia o servidor |
 | `npm run dev` | Modo desenvolvimento com nodemon |
-| `npm run pm2:start` | Inicia com PM2 |
+| `npm run pm2:start` | Inicia com PM2 (produção) |
+| `npm run pm2:start:dev` | Inicia com PM2 (desenvolvimento) |
 | `npm run pm2:stop` | Para o servidor PM2 |
 | `npm run pm2:restart` | Reinicia o servidor PM2 |
 | `npm run pm2:logs` | Visualiza logs do PM2 |
 | `npm run pm2:status` | Status dos processos PM2 |
+| `npm run pm2:delete` | Remove o processo do PM2 |
 
 ## 🐛 Troubleshooting
 
@@ -207,11 +237,11 @@ Para uso em produção, considere:
 
 1. **Porta já em uso**:
    ```bash
-   # Verificar o que está usando a porta 3000
-   netstat -ano | findstr :3000
+   # Verificar o que está usando a porta 3003
+   netstat -ano | findstr :3003
    
    # Ou mudar a porta
-   set PORT=3001 && npm start
+   set PORT=3004 && npm start
    ```
 
 2. **PM2 não encontrado**:

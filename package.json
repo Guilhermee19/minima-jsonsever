@@ -6,11 +6,13 @@
   "scripts": {
     "start": "node index.js",
     "dev": "nodemon index.js",
-    "pm2:start": "pm2 start ecosystem.config.js",
-    "pm2:stop": "pm2 stop meu-app",
-    "pm2:restart": "pm2 restart meu-app",
-    "pm2:logs": "pm2 logs meu-app",
-    "pm2:status": "pm2 status"
+    "pm2:start": "pm2 start ecosystem.config.js --env production",
+    "pm2:start:dev": "pm2 start ecosystem.config.js --env development",
+    "pm2:stop": "pm2 stop minima-jsonserver",
+    "pm2:restart": "pm2 restart minima-jsonserver",
+    "pm2:logs": "pm2 logs minima-jsonserver",
+    "pm2:status": "pm2 status",
+    "pm2:delete": "pm2 delete minima-jsonserver"
   },
   "keywords": [
     "json-server",
