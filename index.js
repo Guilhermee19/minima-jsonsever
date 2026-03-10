@@ -1,4 +1,5 @@
 const jsonServer = require('json-server')
+const cors = require('cors')
 const path = require('path')
 
 const server = jsonServer.create()
@@ -8,6 +9,14 @@ const middlewares = jsonServer.defaults()
 // Configurações do servidor
 const PORT = process.env.PORT || 3000
 const HOST = process.env.HOST || '0.0.0.0'
+
+// Configurar CORS com pacote específico
+server.use(cors({
+  origin: true, // Aceita qualquer origem - para desenvolvimento
+  methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Origin', 'X-Requested-With', 'Content-Type', 'Accept', 'Authorization'],
+  credentials: true // Permite cookies se necessário
+}))
 
 // Middleware para logs personalizados
 server.use((req, res, next) => {
