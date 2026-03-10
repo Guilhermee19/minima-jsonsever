@@ -25,7 +25,9 @@ module.exports = {
       env_production: {
         NODE_ENV: "production",
         PORT: 3003,
-        HOST: "0.0.0.0"
+        HOST: "0.0.0.0",
+        HTTPS: "true",
+        HTTPS_PORT: 3443
       },
       // Configurações de teste
       env_test: {
