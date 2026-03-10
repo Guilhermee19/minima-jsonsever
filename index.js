@@ -49,9 +49,37 @@ if (useHttps) {
     const { execSync } = require('child_process')
     
     try {
-      // Criar certificado auto-assinado
-      execSync(`openssl req -x509 -newkey rsa:4096 -keyout key.pem -out cert.pem -days 365 -nodes -subj "/CN=localhost"`)
+      // Criar certificado auto-assinado com SAN para localhost e IP externo
+      const serverIP = HOST === '0.0.0.0' ? '62.171.172.35' : HOST
+      const sanConfig = `[req]
+distinguished_name = req_distinguished_name
+req_extensions = v3_req
+prompt = no
+
+[req_distinguished_name]
+C=BR
+ST=SP
+L=Sao Paulo
+O=Dev
+OU=Dev
+CN=localhost
+
+[v3_req]
+basicConstraints = CA:FALSE
+keyUsage = nonRepudiation, digitalSignature, keyEncipherment
+subjectAltName = @alt_names
+
+[alt_names]
+DNS.1 = localhost
+DNS.2 = *.ngrok.io
+IP.1 = 127.0.0.1
+IP.2 = ${serverIP}`
+      
+      execSync(`echo '${sanConfig}' > ssl.conf`)
+      execSync(`openssl req -x509 -newkey rsa:4096 -keyout key.pem -out cert.pem -days 365 -nodes -config ssl.conf -extensions v3_req`)
+      execSync(`rm ssl.conf`)
       console.log('✅ Certificados auto-assinados criados com sucesso!')
+      console.log(`🌐 Certificado válido para: localhost, 127.0.0.1, ${serverIP}`)
     } catch (error) {
       console.error('❌ Erro ao criar certificados. Usando HTTP...')
       return false
