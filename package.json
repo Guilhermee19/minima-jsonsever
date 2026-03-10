@@ -1,0 +1,30 @@
+{
+  "name": "minima-jsonserver",
+  "version": "1.0.0",
+  "description": "JSON Server API com PM2",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "nodemon index.js",
+    "pm2:start": "pm2 start ecosystem.config.js",
+    "pm2:stop": "pm2 stop meu-app",
+    "pm2:restart": "pm2 restart meu-app",
+    "pm2:logs": "pm2 logs meu-app",
+    "pm2:status": "pm2 status"
+  },
+  "keywords": [
+    "json-server",
+    "api",
+    "rest",
+    "pm2",
+    "nodejs"
+  ],
+  "author": "Guilherme",
+  "license": "MIT",
+  "dependencies": {
+    "json-server": "^0.17.4"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.3"
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "channels": [
+    {
+      "name": "Clipezadas",
+      "email": "losmemes365@gmail.com",
+      "link": "https://www.youtube.com/@Clipezadas",
+      "platform": "Youtube",
+      "id": "5a941af6-c4be-4f01-b129-8f3400346a6b"
+    }
+  ],
+  "publications": [
+    {
+      "channelId": "5a941af6-c4be-4f01-b129-8f3400346a6b",
+      "title": "Corte - Alanzoka",
+      "date": "2026-03-20",
+      "id": "6511e99c-fc1f-4a63-8bb8-7fb3adf45bab"
+    }
+  ]
+}
