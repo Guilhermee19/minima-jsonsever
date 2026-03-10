@@ -1,7 +1,7 @@
 module.exports = {
   apps: [
     {
-      name: "meu-app",
+      name: "minima-jsonserver",
       script: "./index.js",
       instances: "max", // número de instâncias, ou 'max' para máximo de CPUs disponíveis
       exec_mode: "cluster", // modo de execução: 'fork' ou 'cluster'
@@ -18,19 +18,19 @@ module.exports = {
       // Configurações de ambiente padrão (desenvolvimento)
       env: {
         NODE_ENV: "development",
-        PORT: 3000,
+        PORT: 3003,
         HOST: "localhost"
       },
       // Configurações de produção
       env_production: {
         NODE_ENV: "production",
-        PORT: 3000,
+        PORT: 3003,
         HOST: "0.0.0.0"
       },
       // Configurações de teste
       env_test: {
         NODE_ENV: "test",
-        PORT: 3001,
+        PORT: 3003,
         HOST: "localhost"
       }
     }
