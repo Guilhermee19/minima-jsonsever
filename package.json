@@ -1,38 +1,43 @@
 {
   "name": "minima-jsonserver",
   "version": "1.0.0",
-  "description": "JSON Server API com PM2",
   "main": "index.js",
-  "scripts": {
-    "start": "node index.js",
-    "start:https": "HTTPS=true node index.js",
-    "dev": "nodemon index.js",
-    "dev:https": "HTTPS=true nodemon index.js",
-    "tunnel": "npx ngrok http 3003",
-    "tunnel:secure": "npx ngrok http 3003 --region us --log stdout",
-    "ssl:generate": "./generate-ssl.sh",
-    "pm2:start": "pm2 start ecosystem.config.js --env production",
-    "pm2:start:dev": "pm2 start ecosystem.config.js --env development",
-    "pm2:stop": "pm2 stop minima-jsonserver",
-    "pm2:restart": "pm2 restart minima-jsonserver",
-    "pm2:logs": "pm2 logs minima-jsonserver",
-    "pm2:status": "pm2 status",
-    "pm2:delete": "pm2 delete minima-jsonserver"
+  "engines": {
+    "node": ">=18.0.0 <=20.x"
   },
-  "keywords": [
-    "json-server",
-    "api",
-    "rest",
-    "pm2",
-    "nodejs"
-  ],
-  "author": "Guilherme",
-  "license": "MIT",
+  "scripts": {
+    "start": "nodemon",
+    "dev": "nodemon",
+    "serve": "node index.js",
+    "pm2:start": "pm2 start ecosystem.config.js",
+    "pm2:stop": "pm2 stop ecosystem.config.js",
+    "pm2:restart": "pm2 restart ecosystem.config.js",
+    "pm2:reload": "pm2 reload ecosystem.config.js",
+    "pm2:delete": "pm2 delete ecosystem.config.js",
+    "pm2:logs": "pm2 logs json-server",
+    "pm2:status": "pm2 status",
+    "pm2:monit": "pm2 monit",
+    "pm2:prod": "pm2 start ecosystem.config.js --env production",
+    "setup:dirs": "mkdir -p logs certs",
+    "build": "echo 'No build step required for JSON Server'",
+    "test": "echo 'No tests specified'"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
   "dependencies": {
-    "cors": "^2.8.6",
-    "json-server": "^0.17.4"
+    "dotenv": "^16.4.5",
+    "json-server": "^0.17.0",
+    "pm2": "^5.4.0"
   },
   "devDependencies": {
-    "nodemon": "^3.0.3"
+    "@types/dotenv": "^8.2.0",
+    "@types/express": "^4.17.14",
+    "@types/node": "^20.14.0",
+    "nodemon": "^3.1.1",
+    "rimraf": "^3.0.2",
+    "ts-node": "^10.9.1",
+    "typescript": "^5.0.0"
   }
 }

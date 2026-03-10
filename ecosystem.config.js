@@ -1,54 +1,45 @@
 module.exports = {
-  apps: [
-    {
-      name: "minima-jsonserver",
-      script: "./index.js",
-      instances: 1, // apenas uma instância para JSON Server
-      exec_mode: "fork", // modo fork é mais adequado para JSON Server
-      watch: false, // desabilitado para produção (use true apenas em desenvolvimento)
-      max_memory_restart: "1G", // reinicia se usar mais que 1GB de RAM
-      log_date_format: "YYYY-MM-DD HH:mm:ss Z",
-      error_file: "./logs/error.log",
-      out_file: "./logs/out.log",
-      log_file: "./logs/combined.log",
-      time: true,
-      autorestart: true,
-      max_restarts: 10,
-      min_uptime: "10s",
-      // Configurações de ambiente padrão (desenvolvimento)
-      env: {
-        NODE_ENV: "development",
-        PORT: 3003,
-        HOST: "localhost"
-      },
-      // Configurações de produção
-      env_production: {
-        NODE_ENV: "production",
-        PORT: 3003,
-        HOST: "0.0.0.0",
-        HTTPS: "true",
-        HTTPS_PORT: 3443
-      },
-      // Configurações de teste
-      env_test: {
-        NODE_ENV: "test",
-        PORT: 3004,
-        HOST: "localhost"
-      }
-    }
-  ],
-  
-  // Configurações globais do PM2
-  deploy: {
-    production: {
-      user: "deploy",
-      host: ["your-server.com"],
-      ref: "origin/master",
-      repo: "git@github.com:your-username/minima-jsonserver.git",
-      path: "/var/www/production",
-      "pre-deploy-local": "",
-      "post-deploy": "npm install && pm2 reload ecosystem.config.js --env production",
-      "pre-setup": ""
-    }
-  }
+  apps: [{
+    name: 'json-server-prod',
+    script: 'index.js',
+    instances: 'max', // utiliza todos os cores disponíveis
+    exec_mode: 'cluster',
+    env: {
+      NODE_ENV: 'development',
+      HTTPS_PORT: 3443
+    },
+    env_production: {
+      NODE_ENV: 'production',
+      HTTPS_PORT: 443
+    },
+    
+    // Configurações de monitoramento
+    watch: false, // desabilitar em produção
+    
+    // Configurações de log
+    log_file: './logs/combined.log',
+    out_file: './logs/out.log',
+    error_file: './logs/error.log',
+    log_date_format: 'YYYY-MM-DD HH:mm:ss Z',
+    merge_logs: true,
+    
+    // Restart automático
+    autorestart: true,
+    max_restarts: 5,
+    min_uptime: '30s',
+    max_memory_restart: '500M',
+    restart_delay: 3000,
+    
+    // Configurações avançadas para produção
+    kill_timeout: 5000,
+    listen_timeout: 3000,
+    
+    // Configurações de performance
+    node_args: '--max-old-space-size=1024',
+    
+    // Configurações de erro
+    error_file: './logs/error.log',
+    combine_logs: true,
+    time: true
+  }]
 };
